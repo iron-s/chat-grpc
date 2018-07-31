@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+service Chat {
+  rpc Messages(stream Message) returns (stream Event) {}
+}
+
+message Message {
+  oneof msg {
+    Text text = 2;
+    Join join = 3;
+  }
+}
+
+message Event {
+  google.protobuf.Timestamp time = 1;
+  string who = 2;
+
+  oneof msg {
+    Text text = 3;
+    Join join = 4;
+    Leave leave = 5;
+  }
+}
+
+message Text {
+  string text = 1;
+}
+
+message Join {
+  string name = 1;
+  string pass = 2;
+}
+
+message Leave {}
